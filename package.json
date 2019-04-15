@@ -1,0 +1,24 @@
+{
+  "name": "markdown",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "gulp default",
+    "build": "gulp compile",
+    "pack": "gulp pack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "wzjing",
+  "license": "ISC",
+  "devDependencies": {
+    "markdown-it": "^8.4.2",
+    "gulp": "^4.0.0",
+    "gulp-cli": "^2.1.0",
+    "del": "^4.1.0",
+    "gulp-connect": "^5.7.0",
+    "webpack": "^4.30.0",
+    "html-webpack-plugin": "3.2.0",
+    "mocha": "^6.1.3"
+  }
+}
