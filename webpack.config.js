@@ -18,6 +18,11 @@ module.exports = {
             template: './src/index.html',
             chunks: ['main']
         }),
-        new MarkdownPlugin()
+        new MarkdownPlugin({
+            src: './data/**/*.md',
+            base: './data/',
+            dest: './dist',
+            inject: false
+        })
     ]
 };
