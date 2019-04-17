@@ -21,8 +21,7 @@ module.exports = {
         new MarkdownPlugin({
             src: './data/**/*.md',
             base: './data/',
-            dest: './dist',
-            inject: false
+            dest: './dist/articles',
         })
     ]
 };

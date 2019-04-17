@@ -4,6 +4,12 @@ const md = require('markdown-it')();
 const path = require('path');
 const fs = require('fs');
 
+let red = (msg) => `\x1B[31m${msg}\x1B[39m`;
+let green = (msg) => `\x1B[36m${msg}\x1B[39m`;
+let yellow = (msg) => `\x1B[33m${msg}\x1B[39m`;
+let blue = (msg) => `\x1B[34m${msg}\x1B[39m`;
+let magenta = (msg) => `\x1B[35m${msg}\x1B[39m`;
+
 class WebpackMarkdownPlugin {
 
     constructor(options) {
@@ -17,36 +23,31 @@ class WebpackMarkdownPlugin {
         compiler.hooks.emit.tapAsync(
             PluginName,
             (compilation, callback) => {
-                console.log('Markdown-Plugin: start compiling markdown...');
-                for (let name in compilation.assets) console.log(`\tFile: ${name}`);
+                console.log(`[${blue(PluginName)}]: start compiling markdown...`);
 
                 glob(this.src, (err, files) => {
                     files.forEach(filename => {
-                        console.log(`Markdown-Plugin: compiling file ${filename}`);
+                        // compile files
                         let buffer = fs.readFileSync(filename, {flag: 'r', encoding: 'utf-8'});
                         if (buffer) {
                             let html = md.render(buffer);
                             if (html) {
-                                // let target = path.resolve(process.cwd(), filename.replace(this.base, this.dest));
-                                // console.log(`Markdown-Plugin: writing target ${target}`);
-                                // fs.writeFileSync(target, html, {
-                                //     flag: 'w+',
-                                //     encoding: 'utf-8'
-                                // });
-                                console.log(`Markdown-Plugin: writing target: ${filename.replace(this.base, '')}(${html.length})`);
-                                compilation.assets[filename.replace(this.base, '')] = {
+                                let destination = filename.replace(this.base, '');
+                                console.log(`\t[${green('\u221A')}]compiled target: ${magenta(destination)}(${html.length}bytes)`);
+                                compilation.assets[destination] = {
                                     source: () => html,
                                     size: () => html.length
                                 };
                             } else {
-                                console.error(`Markdown-Plugin: failed to compile file ${filename}\n\t`)
+                                console.log(`\t[${red('\u26CC')}]failed to compile file ${magenta(filename)}: ${red('render error')}`)
                             }
+                        } else if(buffer === '') {
+                            console.log(`\t[${yellow('~')}]skip empty file: ${filename}`);
                         } else {
-                            console.error(`Markdown-Plugin: failed to open file: ${filename}:\n\t${err}`);
+                            console.log(`\t[${red('x')}]open file error: ${magenta(filename)}: ${red(err)}`);
                         }
                     });
-                    for (let name in compilation.assets) console.log(`\tFile: ${name}`);
-                    console.log('Markdown-Plugin: compile complete');
+                    console.log(`[${blue(PluginName)}]: complete compile.`);
 
                     callback();
                 });
