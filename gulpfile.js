@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const connect = require('gulp-connect');
-const del = require('del')
+const del = require('del');
 const gulpMarkdown = require('./components/gulp-markdown');
 const webpack = require('webpack');
 const config = require('./webpack.config');
@@ -10,9 +10,9 @@ function clean() {
 }
 
 function compile() {
-    return gulp.src('./data/*.md', { buffer: false })
+    return gulp.src('./data/**/*.md', { buffer: false, base: './data'})
         .pipe(gulpMarkdown())
-        .pipe(gulp.dest('./dist'));
+        .pipe(gulp.dest('./dist/articles'));
 }
 
 function copyAssets() {

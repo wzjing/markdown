@@ -1,7 +1,6 @@
 const PluginName = 'webpack-markdown-plugin';
 const glob = require('glob');
 const md = require('markdown-it')();
-const path = require('path');
 const fs = require('fs');
 
 let red = (msg) => `\x1B[31m${msg}\x1B[39m`;
