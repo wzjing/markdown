@@ -10,7 +10,7 @@ function clean() {
 }
 
 function compile() {
-    return gulp.src('./data/**/*.md', { buffer: false, base: './data'})
+    return gulp.src('./data/**/*', { buffer: false, base: './data'})
         .pipe(gulpMarkdown())
         .pipe(gulp.dest('./dist/articles'));
 }
